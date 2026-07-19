@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#66745f"><meta name="description" content="Pilates lesson planning and studio records">
+<title>Bianca Pilates Studio</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+<aside>
+  <div class="brand"><b>B</b><div><strong>Bianca Pilates</strong><small>Studio planner</small></div></div>
+  <nav>
+    <button class="active" data-view="home">⌂ <span>Home</span></button>
+    <button data-view="lessons">▣ <span>Lessons</span></button>
+    <button data-view="poses">◌ <span>Pose library</span></button>
+    <button data-view="clients">♙ <span>Clients</span></button>
+    <button data-view="data">⚙ <span>Data</span></button>
+  </nav>
+  <div class="next"><small>NEXT CLASS</small><strong id="nextName">No class planned</strong><span id="nextTime">Create a lesson</span></div>
+</aside>
+<main>
+<header><div><small id="kicker">STUDIO OVERVIEW</small><h1 id="title">Good morning, Bianca</h1></div><button class="avatar" data-view="data">B</button></header>
+
+<section id="home" class="view active">
+  <div class="hero"><div><span class="pill">YOUR STUDIO, ORGANISED</span><h2>Plan better classes.<br>Remember every detail.</h2><p>Build visual pose sequences, record clients and keep useful teaching notes in one calm workspace.</p><div class="actions"><button class="primary" data-action="newLesson">＋ Plan a lesson</button><button data-view="poses">Browse poses</button></div></div><div id="heroArt"></div></div>
+  <div id="stats" class="stats"></div>
+  <div class="columns"><article class="panel"><div class="heading"><div><small>COMING UP</small><h2>Upcoming lessons</h2></div><button data-view="lessons">View all</button></div><div id="upcoming"></div></article><article class="panel"><div class="heading"><div><small>QUICK ACCESS</small><h2>Favourite poses</h2></div><button data-view="poses">Library</button></div><div id="favourites" class="favourites"></div></article></div>
+</section>
+
+<section id="lessons" class="view">
+  <div class="pagehead"><div><small>PROGRAMME</small><h2>Lessons</h2><p>Plan upcoming sessions and retain a searchable teaching history.</p></div><button class="primary" data-action="newLesson">＋ New lesson</button></div>
+  <div class="toolbar"><div class="segments"><button class="active" data-filter="all">All</button><button data-filter="upcoming">Upcoming</button><button data-filter="completed">Completed</button></div><input id="lessonSearch" placeholder="Search lessons or clients"></div>
+  <div id="lessonGrid" class="lesson-grid"></div><div id="lessonEmpty" class="empty">No lessons found.</div>
+</section>
+
+<section id="poses" class="view">
+  <div class="pagehead"><div><small>MOVEMENT LIBRARY</small><h2>Pose library</h2><p>Keep images, cues, modifications and equipment together.</p></div><button class="primary" data-action="newPose">＋ Add pose</button></div>
+  <div class="toolbar"><input id="poseSearch" placeholder="Search poses or equipment"><select id="poseLevel"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><select id="poseFocus"><option value="all">All focus areas</option><option>Core</option><option>Mobility</option><option>Strength</option><option>Extension</option><option>Balance</option></select></div>
+  <div id="poseGrid" class="pose-grid"></div><div id="poseEmpty" class="empty">No poses match.</div>
+</section>
+
+<section id="clients" class="view">
+  <div class="pagehead"><div><small>PEOPLE</small><h2>Clients</h2><p>Record goals, attendance and teaching considerations.</p></div><button class="primary" data-action="newClient">＋ Add client</button></div>
+  <div class="toolbar"><input id="clientSearch" placeholder="Search clients"></div><div id="clientGrid" class="client-grid"></div>
+</section>
+
+<section id="data" class="view">
+  <div class="pagehead"><div><small>PROTOTYPE CONTROLS</small><h2>Data & settings</h2><p>Data remains in this browser unless exported.</p></div></div>
+  <div class="data-grid"><article class="panel"><b>⇩</b><h3>Export backup</h3><p>Download lessons, clients and poses as JSON.</p><button data-action="exportJson">Export JSON</button></article><article class="panel"><b>▦</b><h3>Lesson spreadsheet</h3><p>Download lesson history as CSV.</p><button data-action="exportCsv">Export CSV</button></article><article class="panel"><b>⇧</b><h3>Import backup</h3><p>Restore a JSON backup.</p><label class="file">Choose JSON<input id="importFile" type="file" accept="application/json"></label></article><article class="panel warning"><b>↺</b><h3>Reset prototype</h3><p>Restore the original sample studio.</p><button data-action="reset">Reset demo</button></article></div>
+</section>
+</main>
+
+<nav class="mobile"><button class="active" data-view="home">⌂<small>Home</small></button><button data-view="lessons">▣<small>Lessons</small></button><button class="add" data-action="newLesson">＋</button><button data-view="poses">◌<small>Poses</small></button><button data-view="clients">♙<small>Clients</small></button></nav>
+</div>
+
+<dialog id="lessonDialog"><form id="lessonForm"><div class="modalhead"><div><small>LESSON BUILDER</small><h2 id="lessonDialogTitle">Plan a lesson</h2></div><button type="button" data-close>×</button></div><input id="lessonId" type="hidden"><div class="formgrid"><label class="wide">Lesson name<input id="lessonName" required></label><label>Date<input id="lessonDate" type="date" required></label><label>Time<input id="lessonTime" type="time" required></label><label>Duration<select id="lessonDuration"><option>30</option><option>45</option><option>50</option><option selected>60</option><option>75</option><option>90</option></select></label><label>Level<select id="lessonLevel"><option>Beginner</option><option selected>Mixed</option><option>Intermediate</option><option>Advanced</option></select></label><label class="wide">Client or group<select id="lessonClient"></select></label><label class="wide">Class goal<input id="lessonGoal"></label></div><div class="builder"><div><div class="heading"><div><small>SEQUENCE</small><h3>Selected poses</h3></div><span id="sequenceMinutes" class="badge">0 min</span></div><div id="sequence"></div><p id="sequenceEmpty" class="muted">Choose poses from the library.</p></div><div><input id="builderSearch" placeholder="Search poses"><div id="posePicker"></div></div></div><label>Teaching notes<textarea id="lessonNotes" rows="4"></textarea></label><footer><button type="button" data-close>Cancel</button><button type="button" id="completeLesson">Mark complete</button><button class="primary">Save lesson</button></footer></form></dialog>
+
+<dialog id="poseDialog"><form id="poseForm"><div class="modalhead"><div><small>POSE RECORD</small><h2>Add a pose</h2></div><button type="button" data-close>×</button></div><input id="poseId" type="hidden"><div id="posePreview" class="preview"></div><div class="formgrid"><label class="wide">Pose name<input id="poseName" required></label><label>Level<select id="poseFormLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Focus<select id="poseFormFocus"><option>Core</option><option>Mobility</option><option>Strength</option><option>Extension</option><option>Balance</option></select></label><label class="wide">Equipment<input id="poseEquipment" value="Mat"></label><label class="wide">Key cues<textarea id="poseCues" rows="3" required></textarea></label><label class="wide">Modifications<textarea id="poseMods" rows="2"></textarea></label></div><footer><button type="button" data-close>Cancel</button><button class="primary">Save pose</button></footer></form></dialog>
+
+<dialog id="clientDialog"><form id="clientForm"><div class="modalhead"><div><small>CLIENT RECORD</small><h2>Add a client</h2></div><button type="button" data-close>×</button></div><input id="clientId" type="hidden"><div class="formgrid"><label class="wide">Name<input id="clientName" required></label><label>Email<input id="clientEmail" type="email"></label><label>Level<select id="clientLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Status<select id="clientStatus"><option>Active</option><option>Paused</option></select></label><label class="wide">Goals<textarea id="clientGoals" rows="2"></textarea></label><label class="wide">Teaching considerations<textarea id="clientNotes" rows="3"></textarea></label></div><footer><button type="button" data-close>Cancel</button><button class="primary">Save client</button></footer></form></dialog>
+
+<dialog id="detailDialog"><div id="detail"></div><footer><button data-close>Done</button></footer></dialog><div id="toast"></div><script src="app.js"></script>
+</body></html>
